@@ -1,10 +1,18 @@
 import requests
+import math
 import time
 import xmltodict
 from hashlib import sha256
 import json
 # print(test["report"]["deviceInformation"])
+
+
+def is_in_bad_zone(x,y):
+    return math.sqrt((x - center_point)**2+(y - center_point)**2 ) < zone_range
+
 sha_old = ""
+center_point = 250000 # In mm
+zone_range = 100000 # In mm
 while True:
     # Parse the XML data
     xml_data = requests.get('http://assignments.reaktor.com/birdnest/drones').text
@@ -21,8 +29,11 @@ while True:
         for i in  incoming_drones:
             x =  int(float(i["positionX"]))
             y =  int(float(i["positionY"]))
-            pilot_url = "http://assignments.reaktor.com/birdnest/pilots/" + i["serialNumber"]
-            pilot = requests.get(pilot_url).json()
-            drone_data.append({"id":pilot["pilotId"],"number":i["serialNumber"], "pos":(x,y)})
+            if is_in_bad_zone(x,y):
+                pilot_url = "http://assignments.reaktor.com/birdnest/pilots/" + i["serialNumber"]
+                pilot = requests.get(pilot_url).json()
+                drone_data.append({"id":pilot["pilotId"],"number":i["serialNumber"], "pos":(x,y)})
         print(drone_data)
         time.sleep(1)
+
+
