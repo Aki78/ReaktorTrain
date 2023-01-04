@@ -1,13 +1,12 @@
 import requests
-from bs4 import BeautifulSoup
 import xmltodict
 
 # Parse the XML data
 xml_data = requests.get('http://assignments.reaktor.com/birdnest/drones').text
-soup = BeautifulSoup(xml_data, 'lxml')
-print(xmltodict.parse(xml_data))
-
-# Print the values of the XML data
-for element in soup.find_all():
-    print(element)
-    # print(element.report, element.value)
+test = xmltodict.parse(xml_data)
+try:
+    print(test["report"]["deviceInformation"])
+    print(test["report"]["capture"]["drone"][1]["positionX"])
+    print(test["report"]["capture"]["drone"][1]["positionY"])
+except:
+    print("error")
