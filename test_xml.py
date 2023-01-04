@@ -42,9 +42,9 @@ while True:
             x =  int(float(i["positionX"]))
             y =  int(float(i["positionY"]))
             if is_in_bad_zone(x,y):
-                pilot_url = "http://assignments.reaktor.com/birdnest/pilots/" + i["serialNumber"]
-                pilot = requests.get(pilot_url).json()
-                drone_data.append({"id":pilot["pilotId"], "number":i["serialNumber"], "pos":(x,y)})
+                naughty_pilot_url = "http://assignments.reaktor.com/birdnest/pilots/" + i["serialNumber"]
+                naughty_pilot = requests.get(naughty_pilot_url).json()
+                drone_data.append({"id":naughty_pilot["pilotId"], "number":i["serialNumber"], "pos":(x,y)})
         print(drone_data)
         #timer to make sure it doesn't run too many requests per second
         time.sleep(sleep_time) 
