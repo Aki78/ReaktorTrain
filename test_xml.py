@@ -4,10 +4,11 @@ import xmltodict
 from hashlib import sha256
 sha_old = ""
 while True:
-# Parse the XML data
+    # Parse the XML data
     xml_data = requests.get('http://assignments.reaktor.com/birdnest/drones').text
     sha_value = sha256(xml_data.encode('utf-8')).hexdigest()
     print(sha_value == sha_old)
+    # Checking if it is the same or not from before
     if sha_value != sha_old:
         sha_old = sha_value
         test = xmltodict.parse(xml_data)
