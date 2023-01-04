@@ -14,11 +14,12 @@ def is_in_bad_zone(x,y):
 
 #Globals
 sha_old = ""
-center_point = 250000 # In mm
+center_point = 250000 # In mm, both X_0 and Y_0 being the same
 zone_range = 100000 # In mm
 sleep_time = 1 # make sure to have smaller than 2 seconds for realtime update
 
 while True:
+
     # Parse the XML data
     xml_data = requests.get('http://assignments.reaktor.com/birdnest/drones').text
 
@@ -37,15 +38,15 @@ while True:
             raise Exception(TypeError)
 
         # pos is int because there is no point storing data in micrometers or nanometers
-        drone_data = []
+        all_naughty_pilots = []
         for i in  incoming_drones_list:
             x =  int(float(i["positionX"]))
             y =  int(float(i["positionY"]))
             if is_in_bad_zone(x,y):
                 naughty_pilot_url = "http://assignments.reaktor.com/birdnest/pilots/" + i["serialNumber"]
                 naughty_pilot = requests.get(naughty_pilot_url).json()
-                drone_data.append({"id":naughty_pilot["pilotId"], "number":i["serialNumber"], "pos":(x,y)})
-        print(drone_data)
+                all_naughty_pilots.append({"id":naughty_pilot["pilotId"], "number":i["serialNumber"], "pos":(x,y)})
+        print(all_naughty_pilots)
         #timer to make sure it doesn't run too many requests per second
         time.sleep(sleep_time) 
 
