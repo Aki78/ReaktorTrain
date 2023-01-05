@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Points from './Components/Points'
 import NaughtyList from './Components/NaughtyList'
