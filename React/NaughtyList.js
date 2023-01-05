@@ -21,9 +21,12 @@ function List() {
 
   return (
     <div>
-      {list.map(item => (
-        <div key={item.id}>{item.name}: {item.value}</div>
-      ))}
+	{list.map(item => (
+	  <div key={item.id}>
+	    {item.firstName} {item.lastName}: {item.phoneNumber} ({item.email})
+	  </div>
+	))}
+
     </div>
   );
 }
