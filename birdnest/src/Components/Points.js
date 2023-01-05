@@ -3,17 +3,21 @@ import React from 'react';
 function Points({ points }) {
   const styles = {
     container: {
-      width: '500px',
-      height: '500px',
+      width: '400px',
+      height: '400px',
       border: '1px solid black',
       position: 'relative',
     },
     point: {
       position: 'absolute',
-      width: '10px',
-      height: '10px',
+      width: '20px',
+      height: '20px',
       borderRadius: '50%',
       backgroundColor: 'red',
+      transition: 'box-shadow 0.5s ease',
+    },
+    pointHover: {
+      boxShadow: '0 0 10px 5px rgba(0, 0, 0, 0.5)',
     },
   };
 
@@ -27,6 +31,8 @@ function Points({ points }) {
             left: point.x,
             top: point.y,
           }}
+          onMouseOver={e => e.currentTarget.style.cssText += styles.pointHover.cssText}
+          onMouseOut={e => e.currentTarget.style.cssText = styles.point.cssText}
         />
       ))}
     </div>
