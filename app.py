@@ -2,6 +2,9 @@ from flask import Flask, jsonify, request
 import mysql.connector
 import datetime
 
+#TODO
+#Optimize memory and speed
+
 #Globals
 usr = ""
 psw = ""
@@ -22,7 +25,7 @@ def fetch_recent_naughty_pilots():
     except mysql.connector.Error as err:
         return jsonify(err)
 
-@app.route('/insert_data', methods=['POST'])
+@app.route('/insert_naughty_pilots', methods=['POST'])
 def insert_recent_naughty_pilots():
     try:
         cnx = mysql.connector.connect(user=usr, password=psw, host=hst, database=db)
