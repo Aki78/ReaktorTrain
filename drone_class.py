@@ -20,13 +20,3 @@ class Drone():
         self.y = int(float(drone_data["positionY"]))
         self.altitude = drone_data["altitude"]
         self.naughty = is_in_bad_zone(self.x,self.y)
-
-class NaughtyPilot():
-    def __init__(self,drone,pilot_info):
-        self.pilotId = pilot_info["pilotId"]
-        self.firstName = pilot_info["firstName"]
-        self.lastName = pilot_info["lastName"]
-        self.phoneNumber = pilot_info["phoneNumber"]
-        self.createdDt = pilot_info["createdDt"]
-        self.email = pilot_info["email"]
-        self.drone = drone
