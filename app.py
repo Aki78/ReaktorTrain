@@ -2,13 +2,14 @@ from flask import Flask, jsonify, request
 import mysql.connector
 import datetime
 
-app = Flask(__name__)
-
-@app.route('/fetch_recent_naughty_pilots')
+#Globals
 usr = ""
 psw = ""
 hst = ""
 db = ""
+app = Flask(__name__)
+
+@app.route('/fetch_recent_naughty_pilots')
 def fetch_recent_naughty_pilots():
     try:
         cnx = mysql.connector.connect(user=usr, password=psw, host=hst, database=db)
@@ -28,12 +29,24 @@ def insert_recent_naughty_pilots():
         cursor = cnx.cursor()
         data = request.json
 
-        query = 'INSERT INTO data_table (col1, col2) VALUES (%s, %s)'
-        cursor.execute(query, (data['col1'], data['col2']))
+        data = request.get_json()
+        first_name = data['firstName']
+        last_name = data['lastName']
+        phone_number = data['phoneNumber']
+        create_dt = data['createDt']
+        email = data['email']
+        datetime = data['datetime']
 
+        # Insert the data into the table
+        insert_query = '''
+        INSERT INTO {} (firstName, lastName, phoneNumber, createDt, email, datetime)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        '''.format(table_name)
+        cursor.execute(insert_query, (first_name, last_name, phone_number, create_dt, email, datetime))
         cnx.commit()
 
-        return jsonify({'status': 'success'})
+        # Return a success message
+        return jsonify({'message': 'Pilot added successfully'})
 
     except mysql.connector.Error as err:
         return jsonify({'status': 'error', 'message': str(err)})
