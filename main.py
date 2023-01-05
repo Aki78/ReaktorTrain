@@ -1,11 +1,9 @@
 import requests
-import math
 import time
 import xmltodict
 from hashlib import sha256
 
 #TODO#
-#Refactor Drones to Classes
 #Set Up Endpoints
 #Dev Front End
 
@@ -14,8 +12,6 @@ def is_in_bad_zone(x,y):
 
 #Globals
 sha_old = ""
-center_point = 250000 # In mm, both X_0 and Y_0 being the same
-zone_range = 100000 # In mm
 sleep_time = 1 # make sure to have smaller than 2 seconds for realtime update
 
 while True:

@@ -1,0 +1,11 @@
+CREATE TABLE pilot (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    pilotID VARCHAR(255) NOT NULL,
+    firstName VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    phoneNumber VARCHAR(255) NOT NULL,
+    createDt DATE NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    datetime DATETIME NOT NULL
+);
+
