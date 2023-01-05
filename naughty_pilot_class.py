@@ -8,8 +8,9 @@ class NaughtyPilot():
         self.phoneNumber = pilot_info["phoneNumber"]
         self.createdDt = datetime.strptime(pilot_info["createdDt"],"%Y-%m-%dT%H:%M:%S.%fZ")
         self.email = pilot_info["email"]
-        #drone class
+        #drone class possibly for later use
         self.drone = drone
         #timestamp int since 2 seconds is the interval. and pointless to store in milliseconds
         # self.timestamp = int(datetime.timestamp(datetime.now()))
         self.datetime = datetime.now()
+        self.distance = drone.distance
