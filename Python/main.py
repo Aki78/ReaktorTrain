@@ -12,7 +12,7 @@ def is_in_bad_zone(x,y):
 
 #Globals
 sha_old = ""
-sleep_time = 1 # make sure to have smaller than 2 seconds for realtime update
+SLEEP_TIME = 1 # make sure to have smaller than 2 seconds for realtime update
 
 while True:
 
@@ -44,6 +44,6 @@ while True:
                 all_naughty_pilots.append({"id":naughty_pilot["pilotId"], "number":i["serialNumber"], "pos":(x,y)})
         print(all_naughty_pilots)
         #timer to make sure it doesn't run too many requests per second
-        time.sleep(sleep_time) 
+        time.sleep(SLEEP_TIME) 
 
 

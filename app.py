@@ -12,10 +12,10 @@ from hashlib import sha256
 #Optimize memory and speed
 
 #Globals
-usr = ""
-psw = ""
-hst = ""
-db = ""
+USR = ""
+PSW = ""
+HST = ""
+DB = ""
 
 sha_old = ""
 POOL_TIME = 1 # make sure to have smaller than 2 seconds for realtime update
@@ -29,7 +29,7 @@ def interrupt():
 @app.route('/fetch_recent_naughty_pilots')
 def fetch_recent_naughty_pilots():
     try:
-        cnx = mysql.connector.connect(user=usr, password=psw, host=hst, database=db)
+        cnx = mysql.connector.connect(user=USR, password=PSW, host=HST, database=DB)
         cursor = cnx.cursor()
         ten_minutes_ago = datetime.datetime.now() - datetime.timedelta(minutes=10)
         query = 'SELECT * FROM data_table WHERE timestamp > %s'
@@ -42,7 +42,7 @@ def fetch_recent_naughty_pilots():
 @app.route('/insert_naughty_pilots', methods=['POST'])
 def insert_recent_naughty_pilots():
     try:
-        cnx = mysql.connector.connect(user=usr, password=psw, host=hst, database=db)
+        cnx = mysql.connector.connect(user=USR, password=PSW, host=HST, database=DB)
         cursor = cnx.cursor()
         data = request.json
 
