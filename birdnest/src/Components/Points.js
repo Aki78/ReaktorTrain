@@ -33,7 +33,7 @@ function Points() {
             top: point.Y/1000,
 	    backgroundColor: getColor(point.pilot_id)
           }}
-          title={point.lastName}
+	                data-tooltip={point.firstName}
           onMouseOver={e => e.currentTarget.classList.add('pointHover')}
           onMouseOut={e => e.currentTarget.classList.remove('pointHover')}
         />

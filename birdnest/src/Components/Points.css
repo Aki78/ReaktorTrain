@@ -1,6 +1,6 @@
 .container {
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   border: 1px solid black;
   position: relative;
 }
@@ -18,3 +18,8 @@
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 }
 
+.point[data-tooltip]:hover:before {
+  content: attr(data-tooltip);
+  position: absolute;
+  display: white;
+}
