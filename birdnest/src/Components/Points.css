@@ -1,0 +1,20 @@
+.container {
+  width: 400px;
+  height: 400px;
+  border: 1px solid black;
+  position: relative;
+}
+
+.point {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
+  transition: box-shadow 0.5s ease;
+}
+
+.pointHover {
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+}
+
