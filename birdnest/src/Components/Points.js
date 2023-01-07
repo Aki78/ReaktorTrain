@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from 'react';
+import "./Points.css"
 
-function Points({ points }) {
+function Points() {
   const [positionList, setPositionList] = useState([]);
 
-  useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://example.com/points');
-      const data = await response.json();
+      let response = await fetch('http://localhost:12345/fetch_recent_naughty_pilots');
+      let data = await response.json();
+      console.log(data)
       setPositionList(data);
     }
 
-    fetchData();
+
+  // Call the function every 1.9 seconds
+  useEffect(() => {
+    const interval = setInterval(fetchData, 1900);
+    return () => clearInterval(interval);
   }, []);
+
+
+
 
   return (
     <div className="container">
       {positionList.map(point => (
         <div
-          key={point.id}
+          key={point.X}
           className="point"
           style={{
-            left: point.x,
-            top: point.y,
+            left: point.X/1000,
+            top: point.Y/1000,
           }}
           title={point.name}
           onMouseOver={e => e.currentTarget.classList.add('pointHover')}

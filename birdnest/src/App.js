@@ -1,6 +1,6 @@
 import './App.css';
 import Points from './Components/Points'
-import NaughtyList from './Components/NaughtyList'
+// import NaughtyList from './Components/NaughtyList'
 
 const points = [
   { id: 1, x: 50, y: 50 },
@@ -12,11 +12,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-	  <Points points={points} />
-	  <NaughtyList/>
+	  <Points/>
       </header>
     </div>
   );
 }
 
 export default App;
+	  // <NaughtyList/>
+	  // <Points points={points} />

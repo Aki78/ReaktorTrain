@@ -6,7 +6,7 @@ import time
 import xmltodict
 import threading
 from hashlib import sha256
-import Python.utils as utils
+import utils as utils
 
 import config
 
@@ -30,18 +30,12 @@ past_10_min_pilots = []
 
 app = Flask(__name__)
 
-@app.route('/fetch_recent_naughty_pilots')
+@app.route('/fetch_recent_naughty_pilots', methods=['GET'])
 def fetch_recent_naughty_pilots():
-    try:
-        cnx = mysql.connector.connect(user=USR, password=PSW, host=HST, database=DB)
-        cursor = cnx.cursor()
-        ten_minutes_ago = datetime.datetime.now() - datetime.timedelta(minutes=10)
-        query = 'SELECT * FROM data_table WHERE timestamp > %s'
-        cursor.execute(query, (ten_minutes_ago,))
-        data = cursor.fetchall()
-        return jsonify(data)
-    except mysql.connector.Error as err:
-        return jsonify(err)
+    print("CALLED")
+    resp = jsonify(past_10_min_pilots)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 # @app.route('/insert_naughty_pilots', methods=['POST'])
 def insert_recent_naughty_pilots(data):
