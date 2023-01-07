@@ -12,5 +12,6 @@ class Drone():
         self.x = int(float(drone_data["positionX"]))
         self.y = int(float(drone_data["positionY"]))
         self.altitude = drone_data["altitude"]
+        self.timestamp = drone_data["timestamp"]
         self.is_naughty = utils.is_in_bad_zone(self.x,self.y)
         self.distance =  utils.get_distance_in_meters(self.x,self.y)

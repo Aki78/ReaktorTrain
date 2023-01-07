@@ -23,9 +23,9 @@ table_name = "naughty_pilots"
 
 sha_old = ""
 POOL_TIME = 1 # make sure to have smaller than 2 seconds for realtime update
+all_naughty_pilots = []
 
 app = Flask(__name__)
-# yourThread
 
 # def interrupt():
 #     global yourThread
@@ -77,6 +77,7 @@ def insert_recent_naughty_pilots():
 
 
 def fetch_drone_data():
+    global all_naughty_pilots
     while True:
         print("calld! ")
 
@@ -94,27 +95,34 @@ def fetch_drone_data():
             #Getting full_data from measure
             full_data = xmltodict.parse(xml_data)
             incoming_drones_list =  full_data["report"]["capture"]["drone"]
+            timestamp =  full_data["report"]["capture"]["@snapshotTimestamp"]
+            timestamp = datetime.datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%S.%fZ')
+            print(timestamp)
 
             #small sanity check to make sure drones are stored in list
             if type(incoming_drones_list) != list:
                 raise Exception(TypeError)
 
             # pos is int because there is no point storing data in micrometers or nanometers
-            all_naughty_pilots = []
+            temp_all_naughty_pilots = []
             for i in  incoming_drones_list:
                 x =  int(float(i["positionX"]))
                 y =  int(float(i["positionY"]))
+                distance = utils.get_distance_in_meters(x, y)
                 if utils.is_in_bad_zone(x,y):
                     naughty_pilot_url = BASE_PILOT_URL  + i["serialNumber"]
                     naughty_pilot = requests.get(naughty_pilot_url).json()
-                    all_naughty_pilots.append({"id":naughty_pilot["pilotId"], "number":i["serialNumber"], "pos":(x,y)})
+                    # timestamp = datetime.datetime.now() 
+                    temp_all_naughty_pilots.append({"pilotID":naughty_pilot["pilotId"], "first_name":naughty_pilot["firstName"], "last_name":naughty_pilot["lastName"], "email":naughty_pilot["email"], "distance": distance, "X":x, "Y":y, timestamp:timestamp })
+        # cursor.execute(insert_query, (pilotID, first_name, last_name, phone_number, create_dt, email, distance, datetime))
+            all_naughty_pilots += temp_all_naughty_pilots
             print(all_naughty_pilots)
-            time.sleep(1)
+            time.sleep(POOL_TIME)
 
 
 if __name__ == '__main__':
     global yourThread
 
-    yourThread = threading.Timer(POOL_TIME, fetch_drone_data, ())
+    yourThread = threading.Thread(target=fetch_drone_data)
     yourThread.start()  
     app.run(port=12345)

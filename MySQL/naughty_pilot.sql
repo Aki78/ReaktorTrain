@@ -7,6 +7,8 @@ CREATE TABLE naughty_pilots (
     createDt DATETIME NOT NULL,
     email VARCHAR(255) NOT NULL,
     distance INT NOT NULL,
+    X INT NOT NULL,
+    Y INT NOT NULL,
     datetime DATETIME NOT NULL
 )
 
