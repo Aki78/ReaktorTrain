@@ -19,12 +19,12 @@ function List() {
   useEffect(() => {
     const interval = setInterval(fetchList, 1900);
 	  // get unique pilots with the closest distance
-	const minValues = list.reduce((acc, curr) => {
-	  if (!acc[curr.pilot_id] || acc[curr.pilot_id].distance > curr.distance) {
-	    acc[curr.pilot_id] = curr;
-	  }
-  return acc;
-}, {});
+    const minValues = list.reduce((acc, curr) => {
+      if (!acc[curr.pilot_id] || acc[curr.pilot_id].distance > curr.distance) {
+        acc[curr.pilot_id] = curr;
+      }
+      return acc;
+    }, {});
 
     const new_list = Object.values(minValues);
 	  setFilteredList(new_list)
@@ -33,15 +33,20 @@ function List() {
 
   }, []);
 
-
   return (
-    <div>
-	{filteredList.map(item => (
-	  <div key={item.id}>
-	    {item.firstName} {item.lastName}: {item.phoneNumber} ({item.email}) : {item.distance} meters
-	  </div>
-	))}
-    </div>
+    <table>
+      <tbody>
+        {filteredList.map(item => (
+          <tr key={item.id} style={{ borderTop: '1px solid black' }}>
+            <td>{item.firstName}</td>
+            <td>{item.lastName}</td>
+            <td>{item.phoneNumber}</td>
+            <td>{item.email}</td>
+            <td>{item.distance} meters</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
