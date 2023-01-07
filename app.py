@@ -115,21 +115,25 @@ def fetch_drone_data():
             if type(incoming_drones_list) != list:
                 raise Exception(TypeError)
 
-            # pos is int because there is no point storing data in micrometers or nanometers
-            temp_all_naughty_pilots = []
-            for i in  incoming_drones_list:
-                x =  int(float(i["positionX"]))
-                y =  int(float(i["positionY"]))
-                distance = utils.get_distance_in_meters(x, y)
-                if utils.is_in_bad_zone(x,y):
-                    naughty_pilot_url = BASE_PILOT_URL  + i["serialNumber"]
-                    naughty_pilot = requests.get(naughty_pilot_url).json()
-                    # timestamp = datetime.datetime.now() 
-                    temp_all_naughty_pilots.append({"pilot_id":naughty_pilot["pilotId"], "firstName":naughty_pilot["firstName"], "lastName":naughty_pilot["lastName"], "phoneNumber":naughty_pilot["phoneNumber"], "email":naughty_pilot["email"], "distance": distance, "X":x, "Y":y, "timestamp":timestamp })
-            insert_recent_naughty_pilots(temp_all_naughty_pilots)
-            all_naughty_pilots += temp_all_naughty_pilots
+            all_naughty_pilots += get_temp_naughty_pilots(incoming_drones_list, timestamp)
             print(all_naughty_pilots)
             time.sleep(POOL_TIME)
+
+def get_temp_naughty_pilots(drone_list, timestamp):
+    temp_naughty_pilots = []
+    for i in  drone_list:
+        # pos is int because there is no point storing data in micrometers or nanometers
+        x =  int(float(i["positionX"]))
+        y =  int(float(i["positionY"]))
+        distance = utils.get_distance_in_meters(x, y)
+        if utils.is_in_bad_zone(x,y):
+            naughty_pilot_url = BASE_PILOT_URL  + i["serialNumber"]
+            naughty_pilot = requests.get(naughty_pilot_url).json()
+            # timestamp = datetime.datetime.now() 
+            temp_naughty_pilots.append({"pilot_id":naughty_pilot["pilotId"], "firstName":naughty_pilot["firstName"], "lastName":naughty_pilot["lastName"], "phoneNumber":naughty_pilot["phoneNumber"], "email":naughty_pilot["email"], "distance": distance, "X":x, "Y":y, "timestamp":timestamp })
+    #Adding to database
+    insert_recent_naughty_pilots(temp_naughty_pilots)
+    return temp_naughty_pilots
 
 
 if __name__ == '__main__':
