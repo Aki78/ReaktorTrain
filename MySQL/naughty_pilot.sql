@@ -6,6 +6,7 @@ CREATE TABLE naughty_pilot (
     phoneNumber VARCHAR(255) NOT NULL,
     createDt DATETIME NOT NULL,
     email VARCHAR(255) NOT NULL,
+    distance INT NOT NULL,
     datetime DATETIME NOT NULL
 )
 

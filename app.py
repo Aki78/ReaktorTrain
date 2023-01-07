@@ -2,13 +2,13 @@ from flask import Flask, jsonify, request
 import mysql.connector
 import datetime
 import requests
-import time
 import xmltodict
 import threading
-import atexit
 from hashlib import sha256
+import Python.utils as utils
 
 #TODO
+#get logic working
 #Optimize memory and speed
 
 #Globals
@@ -16,6 +16,8 @@ USR = ""
 PSW = ""
 HST = ""
 DB = ""
+BASE_URL = 'http://assignments.reaktor.com/birdnest/drones'
+BASE_PILOT_URL = "http://assignments.reaktor.com/birdnest/pilots/"
 
 sha_old = ""
 POOL_TIME = 1 # make sure to have smaller than 2 seconds for realtime update
@@ -72,7 +74,7 @@ def insert_recent_naughty_pilots():
 def fetch_drone_data():
 
     # Parse the XML data
-    xml_data = requests.get('http://assignments.reaktor.com/birdnest/drones').text
+    xml_data = requests.get(BASE_URL).text
 
     # checking if it is the same or not from before so there aren't unnessesary calls
     # only reason for sha is for humans to be able to quickly see changes at print time
@@ -93,8 +95,8 @@ def fetch_drone_data():
         for i in  incoming_drones_list:
             x =  int(float(i["positionX"]))
             y =  int(float(i["positionY"]))
-            if is_in_bad_zone(x,y):
-                naughty_pilot_url = "http://assignments.reaktor.com/birdnest/pilots/" + i["serialNumber"]
+            if utils.is_in_bad_zone(x,y):
+                naughty_pilot_url = BASE_PILOT_URL  + i["serialNumber"]
                 naughty_pilot = requests.get(naughty_pilot_url).json()
                 all_naughty_pilots.append({"id":naughty_pilot["pilotId"], "number":i["serialNumber"], "pos":(x,y)})
 
