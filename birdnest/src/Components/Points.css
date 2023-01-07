@@ -3,6 +3,7 @@
   height: 500px;
   border: 1px solid black;
   position: relative;
+  margin: 0 auto;
 }
 
 .point {
@@ -11,15 +12,22 @@
   height: 20px;
   border-radius: 50%;
   background-color: red;
-  transition: box-shadow 0.5s ease;
+  transition: box-shadow 0.5s ease, transform 0.5s ease; /* Add transform transition */
 }
 
 .pointHover {
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+  transform: scale(1.1); /* Scale up on hover */
 }
 
 .point[data-tooltip]:hover:before {
   content: attr(data-tooltip);
   position: absolute;
   display: white;
+  background-color: #333; /* Add background color to tooltip */
+  color: white; /* Add text color to tooltip */
+  padding: 5px; /* Add padding to tooltip */
+  border-radius: 5px; /* Add border radius to tooltip */
+  font-size: 12px; /* Increase font size of tooltip */
+  font-weight: bold; /* Bold the text in the tooltip */
 }
