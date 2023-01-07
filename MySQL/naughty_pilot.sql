@@ -4,11 +4,9 @@ CREATE TABLE naughty_pilots (
     firstName VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     phoneNumber VARCHAR(255) NOT NULL,
-    createDt DATETIME NOT NULL,
     email VARCHAR(255) NOT NULL,
     distance INT NOT NULL,
     X INT NOT NULL,
     Y INT NOT NULL,
-    datetime DATETIME NOT NULL
+    timestamp DATETIME NOT NULL
 )
-

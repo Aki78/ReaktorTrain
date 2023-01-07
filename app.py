@@ -13,10 +13,10 @@ import Python.utils as utils
 #Optimize memory and speed
 
 #Globals
-USR = ""
-PSW = ""
-HST = ""
-DB = ""
+USR = "root"
+PSW = "root"
+HST = "localhost"
+DB = "naughty"
 BASE_URL = 'http://assignments.reaktor.com/birdnest/drones'
 BASE_PILOT_URL = "http://assignments.reaktor.com/birdnest/pilots/"
 table_name = "naughty_pilots"
@@ -44,39 +44,51 @@ def fetch_recent_naughty_pilots():
     except mysql.connector.Error as err:
         return jsonify(err)
 
-@app.route('/insert_naughty_pilots', methods=['POST'])
-def insert_recent_naughty_pilots():
+# @app.route('/insert_naughty_pilots', methods=['POST'])
+def insert_recent_naughty_pilots(data):
+
+    cnx = mysql.connector.connect(user=USR, password=PSW, host=HST, database=DB)
+    cursor = cnx.cursor()
     try:
-        cnx = mysql.connector.connect(user=USR, password=PSW, host=HST, database=DB)
-        cursor = cnx.cursor()
-        data = request.json
+        print("Adding", data)
 
-        data = request.get_json()
-        first_name = data['pilotID']
-        first_name = data['firstName']
-        last_name = data['lastName']
-        phone_number = data['phoneNumber']
-        create_dt = data['createDt']
-        email = data['email']
-        distance = data['distance']
-        datetime = data['datetime']
+        # data = request.get_json()
+        for i in data:
+            print("i", i)
+            pilot_id = i['pilot_id']
+            first_name = i['firstName']
+            last_name = i['lastName']
+            phone_number = i['phoneNumber']
+            timestamp = i['timestamp']
+            email = i['email']
+            distance = i['distance']
+            X = i['X']
+            Y = i['Y']
+            print(i)
 
-        # Insert the data into the table
-        insert_query = '''
-        INSERT INTO {} (pilotID, firstName, lastName, phoneNumber, createDt, email, distance, datetime)
-        VALUES (%s, %s, %s, %s, %s, %s)
-        '''.format(table_name)
-        cursor.execute(insert_query, (pilotID, first_name, last_name, phone_number, create_dt, email, distance, datetime))
-        cnx.commit()
+            # Insert the data into the table
+            insert_query = '''
+            INSERT INTO {} (pilotID, firstName, lastName, phoneNumber, email, distance,  X, Y, timestamp)
+            VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s)
+            '''.format(table_name)
+            try:
+                print(insert_query)
+                cursor.execute(insert_query, (pilot_id, first_name, last_name, phone_number,  email, distance,X,Y, timestamp))
+                cnx.commit()
+            except mysql.connector.Error as error:
+                print(error)
+        cnx.close()
 
         # Return a success message
         return jsonify({'message': 'Pilot added successfully'})
 
     except mysql.connector.Error as err:
+        print("Not adding: ", err)
         return jsonify({'status': 'error', 'message': str(err)})
 
 
 def fetch_drone_data():
+    app.app_context().push()
     global all_naughty_pilots
     while True:
         print("calld! ")
@@ -113,8 +125,8 @@ def fetch_drone_data():
                     naughty_pilot_url = BASE_PILOT_URL  + i["serialNumber"]
                     naughty_pilot = requests.get(naughty_pilot_url).json()
                     # timestamp = datetime.datetime.now() 
-                    temp_all_naughty_pilots.append({"pilotID":naughty_pilot["pilotId"], "first_name":naughty_pilot["firstName"], "last_name":naughty_pilot["lastName"], "email":naughty_pilot["email"], "distance": distance, "X":x, "Y":y, timestamp:timestamp })
-        # cursor.execute(insert_query, (pilotID, first_name, last_name, phone_number, create_dt, email, distance, datetime))
+                    temp_all_naughty_pilots.append({"pilot_id":naughty_pilot["pilotId"], "firstName":naughty_pilot["firstName"], "lastName":naughty_pilot["lastName"], "phoneNumber":naughty_pilot["phoneNumber"], "email":naughty_pilot["email"], "distance": distance, "X":x, "Y":y, "timestamp":timestamp })
+            insert_recent_naughty_pilots(temp_all_naughty_pilots)
             all_naughty_pilots += temp_all_naughty_pilots
             print(all_naughty_pilots)
             time.sleep(POOL_TIME)
