@@ -142,11 +142,18 @@ def get_temp_naughty_pilots(drone_list, timestamp):
             naughty_pilot_url = BASE_PILOT_URL  + i["serialNumber"]
             naughty_pilot = requests.get(naughty_pilot_url).json()
             # timestamp = datetime.datetime.now() 
-            temp_naughty_pilots.append({"pilot_id":naughty_pilot["pilotId"], "firstName":naughty_pilot["firstName"], "lastName":naughty_pilot["lastName"], "phoneNumber":naughty_pilot["phoneNumber"], "email":naughty_pilot["email"], "distance": distance, "X":x, "Y":y, "timestamp":timestamp })
+            if check_if_pilot_already_exists(naughty_pilot["pilotId"], temp_naughty_pilots):
+                temp_naughty_pilots.append({"pilot_id":naughty_pilot["pilotId"], "firstName":naughty_pilot["firstName"], "lastName":naughty_pilot["lastName"], "phoneNumber":naughty_pilot["phoneNumber"], "email":naughty_pilot["email"], "distance": distance, "X":x, "Y":y, "timestamp":timestamp })
     #Adding to database
     insert_recent_naughty_pilots(temp_naughty_pilots)
     return temp_naughty_pilots
 
+
+def check_if_pilot_already_exists(new_pilot_id, pilots):
+    for i in pilots:
+        if new_pilot_id in i["pilotId"]:
+            return False
+    return True
 
 if __name__ == '__main__':
     global yourThread

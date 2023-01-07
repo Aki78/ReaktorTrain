@@ -5,9 +5,10 @@ function List() {
 
   async function fetchList() {
     try {
-      const response = await fetch('/fetch_recent_naughty_pilots');
+      const response = await fetch('http://localhost:12345/fetch_recent_naughty_pilots');
       const data = await response.json();
       setList(data);
+      console.log(data)
     } catch (error) {
       console.error(error);
     }
