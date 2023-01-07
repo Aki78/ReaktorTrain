@@ -2,13 +2,7 @@ import requests
 import time
 import xmltodict
 from hashlib import sha256
-
-#TODO#
-#Set Up Endpoints
-#Dev Front End
-
-def is_in_bad_zone(x,y):
-    return math.sqrt((x - center_point)**2+(y - center_point)**2 ) < zone_range
+import utils
 
 #Globals
 sha_old = ""
@@ -38,7 +32,7 @@ while True:
         for i in  incoming_drones_list:
             x =  int(float(i["positionX"]))
             y =  int(float(i["positionY"]))
-            if is_in_bad_zone(x,y):
+            if utils.is_in_bad_zone(x,y):
                 naughty_pilot_url = "http://assignments.reaktor.com/birdnest/pilots/" + i["serialNumber"]
                 naughty_pilot = requests.get(naughty_pilot_url).json()
                 all_naughty_pilots.append({"id":naughty_pilot["pilotId"], "number":i["serialNumber"], "pos":(x,y)})

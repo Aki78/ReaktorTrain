@@ -1,4 +1,4 @@
-CREATE TABLE naughty_pilot (
+CREATE TABLE naughty_pilots (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     pilotID VARCHAR(255) NOT NULL,
     firstName VARCHAR(255) NOT NULL,
