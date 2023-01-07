@@ -53,7 +53,7 @@ function List() {
           <th>Last Name</th>
           <th>Phone Number</th>
           <th>Email</th>
-          <th>Distance</th>
+          <th>Closest Distance</th>
         </tr>
       </thead>
       <tbody>

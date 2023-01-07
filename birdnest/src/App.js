@@ -7,7 +7,7 @@ function App() {
     <div className="App">
 	  <h2> Zone Entered </h2>
 	  <Points/>
-	  <h1>list of contact information</h1>
+	  <h1>list of contact information from past 10 min.</h1>
 	  <NaughtyList/>
     </div>
   );
