@@ -14,7 +14,7 @@ import config
 #get logic working
 #Optimize memory and speed
 
-#Globals
+#Global Constants
 USR = config.USER
 PSW = config.PASSWORD 
 HST = config.HOST 
@@ -25,6 +25,7 @@ PILOT_TABLE_NAME = config.PILOT_TABLE_NAME
 VIOLATION_TABLE_NAME = config.VIOLATION_TABLE_NAME 
 POOL_TIME = config.POOL_TIME 
 
+#Global Variables
 sha_old = ""
 past_10_min_pilots = []
 
@@ -103,10 +104,15 @@ def fetch_drone_data():
     app.app_context().push()
     global past_10_min_pilots
     while True:
+        past_10_min_pilots = utils.remove_old_objects(past_10_min_pilots)
         print("calld! ")
 
         # Parse the XML data
-        xml_data = requests.get(BASE_URL).text
+        try:
+            xml_data = requests.get(BASE_URL).text
+        except:
+            print("xml_data broken")
+            continue
 
         # checking if it is the same or not from before so there aren't unnessesary calls
         # only reason for sha is for humans to be able to quickly see changes at print time
@@ -117,7 +123,11 @@ def fetch_drone_data():
             sha_old = sha_value
 
             #Getting full_data from measure
-            full_data = xmltodict.parse(xml_data)
+            try:
+                full_data = xmltodict.parse(xml_data)
+            except:
+                print("xml_data_broken")
+                continue
             incoming_drones_list =  full_data["report"]["capture"]["drone"]
             timestamp =  full_data["report"]["capture"]["@snapshotTimestamp"]
             timestamp = datetime.datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%S.%fZ')
@@ -142,8 +152,18 @@ def get_temp_naughty_pilots(drone_list, timestamp):
             naughty_pilot_url = BASE_PILOT_URL  + i["serialNumber"]
             naughty_pilot = requests.get(naughty_pilot_url).json()
             # timestamp = datetime.datetime.now() 
-            if check_if_pilot_already_exists(naughty_pilot["pilotId"], temp_naughty_pilots):
-                temp_naughty_pilots.append({"pilot_id":naughty_pilot["pilotId"], "firstName":naughty_pilot["firstName"], "lastName":naughty_pilot["lastName"], "phoneNumber":naughty_pilot["phoneNumber"], "email":naughty_pilot["email"], "distance": distance, "X":x, "Y":y, "timestamp":timestamp })
+            try:
+                if check_if_pilot_already_exists(naughty_pilot["pilotId"], temp_naughty_pilots):
+                    temp_naughty_pilots.append({"pilot_id":naughty_pilot["pilotId"],
+                                                "firstName":naughty_pilot["firstName"],
+                                                "lastName":naughty_pilot["lastName"],
+                                                "phoneNumber":naughty_pilot["phoneNumber"],
+                                                "email":naughty_pilot["email"],
+                                                "distance": distance, "X":x, "Y":y, "timestamp":timestamp
+                                                })
+            except:
+                print("pilot doesn't exist")
+
     #Adding to database
     insert_recent_naughty_pilots(temp_naughty_pilots)
     return temp_naughty_pilots
@@ -151,9 +171,20 @@ def get_temp_naughty_pilots(drone_list, timestamp):
 
 def check_if_pilot_already_exists(new_pilot_id, pilots):
     for i in pilots:
-        if new_pilot_id in i["pilotId"]:
+        try:
+            if new_pilot_id == i["pilotId"]:
+                return False
+        except:
+            print("Couldn't find Pilot")
             return False
     return True
+
+
+def replace_pilot_closer_than_before(new_pilot, pilots):
+    for i in range(len(pilots)):
+       if new_pilot["pilotId"] == pilots[i]["pilotId"]:
+           if new_pilot["distance"] < pilots[i]["distance"]:
+               pilots[i] = new_pilot
 
 if __name__ == '__main__':
     global yourThread

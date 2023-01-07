@@ -7,7 +7,7 @@ function Points() {
     async function fetchData() {
       let response = await fetch('http://localhost:12345/fetch_recent_naughty_pilots');
       let data = await response.json();
-      console.log(data)
+      // console.log(data)
       setPositionList(data);
     }
 
