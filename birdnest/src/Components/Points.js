@@ -23,6 +23,7 @@ function Points({ points }) {
             left: point.x,
             top: point.y,
           }}
+          title={point.name}
           onMouseOver={e => e.currentTarget.classList.add('pointHover')}
           onMouseOut={e => e.currentTarget.classList.remove('pointHover')}
         />
@@ -32,3 +33,4 @@ function Points({ points }) {
 }
 
 export default Points;
+
