@@ -1,6 +1,3 @@
-
-SET foreign_key_checks = 1;
-
 CREATE TABLE naughty_pilot_info (
 pilotID VARCHAR(255) NOT NULL PRIMARY KEY,
 firstName VARCHAR(255) NOT NULL,

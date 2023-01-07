@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 import mysql.connector
 import datetime
 import requests
@@ -8,29 +8,27 @@ import threading
 from hashlib import sha256
 import Python.utils as utils
 
+import config
+
 #TODO
 #get logic working
 #Optimize memory and speed
 
 #Globals
-USR = "root"
-PSW = "root"
-HST = "localhost"
-DB = "naughty"
-BASE_URL = 'http://assignments.reaktor.com/birdnest/drones'
-BASE_PILOT_URL = "http://assignments.reaktor.com/birdnest/pilots/"
-pilot_table_name = "naughty_pilot_info"
-violation_table_name = "violation_info"
+USR = config.USER
+PSW = config.PASSWORD 
+HST = config.HOST 
+DB = config.DB 
+BASE_URL = config.BASE_URL
+BASE_PILOT_URL = config.BASE_PILOT_URL
+PILOT_TABLE_NAME = config.PILOT_TABLE_NAME 
+VIOLATION_TABLE_NAME = config.VIOLATION_TABLE_NAME 
+POOL_TIME = config.POOL_TIME 
 
 sha_old = ""
-POOL_TIME = 1 # make sure to have smaller than 2 seconds for realtime update
-all_naughty_pilots = []
+past_10_min_pilots = []
 
 app = Flask(__name__)
-
-# def interrupt():
-#     global yourThread
-#     yourThread.cancel()
 
 @app.route('/fetch_recent_naughty_pilots')
 def fetch_recent_naughty_pilots():
@@ -51,14 +49,9 @@ def insert_recent_naughty_pilots(data):
     cnx = mysql.connector.connect(user=USR, password=PSW, host=HST, database=DB)
     cursor = cnx.cursor()
     query = '''SELECT * FROM naughty_pilot_info WHERE pilotID = %s'''
+    #dummy value just to check if pilot already exists
     values = ('12345',)
     cursor.execute(query, values)
-
-
-
-
-
-
 
     try:
         print("Adding", data)
@@ -82,7 +75,7 @@ def insert_recent_naughty_pilots(data):
                 # Insert a row into the table
                 insert_pilot_info = '''
                 INSERT INTO {} (pilotID, firstName, lastName, phoneNumber, email)
-                VALUES (%s, %s, %s, %s, %s)'''.format(pilot_table_name)
+                VALUES (%s, %s, %s, %s, %s)'''.format(PILOT_TABLE_NAME)
 
                 try:
                     # cursor.execute(insert_query, (pilot_id, first_name, last_name, phone_number,  email, distance,X,Y, timestamp))
@@ -96,7 +89,7 @@ def insert_recent_naughty_pilots(data):
 
             insert_violation_info = '''
                 INSERT INTO {} (pilotID, distance, X, Y, timestamp)
-                VALUES (%s, %s, %s, %s, %s)'''.format(violation_table_name)
+                VALUES (%s, %s, %s, %s, %s)'''.format(VIOLATION_TABLE_NAME)
             try:
                 cursor.execute(insert_violation_info, (pilot_id, distance, X, Y,  timestamp))
                 cnx.commit()
@@ -114,7 +107,7 @@ def insert_recent_naughty_pilots(data):
 
 def fetch_drone_data():
     app.app_context().push()
-    global all_naughty_pilots
+    global past_10_min_pilots
     while True:
         print("calld! ")
 
@@ -140,8 +133,8 @@ def fetch_drone_data():
             if type(incoming_drones_list) != list:
                 raise Exception(TypeError)
 
-            all_naughty_pilots += get_temp_naughty_pilots(incoming_drones_list, timestamp)
-            print(all_naughty_pilots)
+            past_10_min_pilots += get_temp_naughty_pilots(incoming_drones_list, timestamp)
+            print(past_10_min_pilots)
             time.sleep(POOL_TIME)
 
 def get_temp_naughty_pilots(drone_list, timestamp):

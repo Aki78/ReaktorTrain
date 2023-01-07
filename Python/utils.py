@@ -1,7 +1,8 @@
 import math
+import config
 #Globals
-CENTER_POINT = 250000 # In mm, both X_0 and Y_0 being the same
-ZONE_RANGE = 100000 # In mm
+CENTER_POINT = config.CENTER_POINT #in mm
+ZONE_RANGE = config.ZONE_RANGE #in mm
 
 def is_in_bad_zone(x,y):
     return math.sqrt((x - CENTER_POINT)**2+(y - CENTER_POINT)**2 ) < ZONE_RANGE
