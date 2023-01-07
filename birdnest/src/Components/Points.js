@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./Points.css"
+import getColor from "./utils.js"
 
 function Points() {
   const [positionList, setPositionList] = useState([]);
@@ -30,8 +31,9 @@ function Points() {
           style={{
             left: point.X/1000,
             top: point.Y/1000,
+	    backgroundColor: getColor(point.pilot_id)
           }}
-          title={point.name}
+          title={point.lastName}
           onMouseOver={e => e.currentTarget.classList.add('pointHover')}
           onMouseOut={e => e.currentTarget.classList.remove('pointHover')}
         />
