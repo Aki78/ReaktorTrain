@@ -29,8 +29,8 @@ function Points() {
           key={point.X}
           className="point"
           style={{
-            left: point.X/1000,
-            top: point.Y/1000,
+            left: point.X/1000 - 500/4,
+            top: point.Y/1000 - 500/4,
 	    backgroundColor: getColor(point.pilot_id)
           }}
 	                data-tooltip={point.firstName + " " + point.lastName}
