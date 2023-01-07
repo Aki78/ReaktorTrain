@@ -19,7 +19,8 @@ HST = "localhost"
 DB = "naughty"
 BASE_URL = 'http://assignments.reaktor.com/birdnest/drones'
 BASE_PILOT_URL = "http://assignments.reaktor.com/birdnest/pilots/"
-table_name = "naughty_pilots"
+pilot_table_name = "naughty_pilot_info"
+violation_table_name = "violation_info"
 
 sha_old = ""
 POOL_TIME = 1 # make sure to have smaller than 2 seconds for realtime update
@@ -49,6 +50,16 @@ def insert_recent_naughty_pilots(data):
 
     cnx = mysql.connector.connect(user=USR, password=PSW, host=HST, database=DB)
     cursor = cnx.cursor()
+    query = '''SELECT * FROM naughty_pilot_info WHERE pilotID = %s'''
+    values = ('12345',)
+    cursor.execute(query, values)
+
+
+
+
+
+
+
     try:
         print("Adding", data)
 
@@ -66,14 +77,28 @@ def insert_recent_naughty_pilots(data):
             Y = i['Y']
             print(i)
 
-            # Insert the data into the table
-            insert_query = '''
-            INSERT INTO {} (pilotID, firstName, lastName, phoneNumber, email, distance,  X, Y, timestamp)
-            VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s)
-            '''.format(table_name)
+            # Insert pilot data into the table if it doesn't exist
+            if cursor.fetchone() is None:
+                # Insert a row into the table
+                insert_pilot_info = '''
+                INSERT INTO {} (pilotID, firstName, lastName, phoneNumber, email)
+                VALUES (%s, %s, %s, %s, %s)'''.format(pilot_table_name)
+
+                try:
+                    # cursor.execute(insert_query, (pilot_id, first_name, last_name, phone_number,  email, distance,X,Y, timestamp))
+                    cursor.execute(insert_pilot_info, (pilot_id, first_name, last_name, phone_number,  email))
+                    cnx.commit()
+                except mysql.connector.Error as error:
+                    print(error)
+            else:
+                print('PilotID already exists in the table')
+
+
+            insert_violation_info = '''
+                INSERT INTO {} (pilotID, distance, X, Y, timestamp)
+                VALUES (%s, %s, %s, %s, %s)'''.format(violation_table_name)
             try:
-                print(insert_query)
-                cursor.execute(insert_query, (pilot_id, first_name, last_name, phone_number,  email, distance,X,Y, timestamp))
+                cursor.execute(insert_violation_info, (pilot_id, distance, X, Y,  timestamp))
                 cnx.commit()
             except mysql.connector.Error as error:
                 print(error)
