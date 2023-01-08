@@ -2,22 +2,13 @@ import React, { useState, useEffect } from 'react';
 import "./Points.css"
 import getColor from "./utils.js"
 
-function Points() {
+function Points({list}) {
   const [positionList, setPositionList] = useState([]);
 
-    async function fetchData() {
-      let response = await fetch('http://localhost:12345/fetch_recent_naughty_pilots');
-      let data = await response.json();
-      // console.log(data)
-      setPositionList(data);
-    }
 
-
-  // Call the function every 1.9 seconds
   useEffect(() => {
-    const interval = setInterval(fetchData, 1900);
-    return () => clearInterval(interval);
-  }, []);
+	  setPositionList(list)
+  }, [list]);
 
 
 

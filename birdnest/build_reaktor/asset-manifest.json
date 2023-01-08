@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/build_reaktor/static/css/main.0a2e29b6.css",
+    "main.js": "/build_reaktor/static/js/main.8f59b919.js",
+    "static/js/787.a4db6894.chunk.js": "/build_reaktor/static/js/787.a4db6894.chunk.js",
+    "index.html": "/build_reaktor/index.html",
+    "main.0a2e29b6.css.map": "/build_reaktor/static/css/main.0a2e29b6.css.map",
+    "main.8f59b919.js.map": "/build_reaktor/static/js/main.8f59b919.js.map",
+    "787.a4db6894.chunk.js.map": "/build_reaktor/static/js/787.a4db6894.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0a2e29b6.css",
+    "static/js/main.8f59b919.js"
+  ]
+}

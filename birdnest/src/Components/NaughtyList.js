@@ -1,25 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import "./NaughtyList.css"
 
-function List() {
+function List({list}) {
   let count = 0
-  const [list, setList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
-
-  async function fetchList() {
-    try {
-      const response = await fetch('http://localhost:12345/fetch_recent_naughty_pilots');
-      const data = await response.json();
-      setList(data);
-      console.log("data: ", data)
-    } catch (error) {
-      console.error(error);
-    }
-
-
-
-  }
-
 
   useEffect(() => {
     const minValues = list.reduce((acc, curr) => {
@@ -36,14 +20,6 @@ function List() {
     console.log(count+=1)
 
   }, [list]);
-
-  // Call the function every 1.9 seconds
-  useEffect(() => {
-    const interval = setInterval(fetchList, 1900);
-    return () => clearInterval(interval);
-
-  }, []);
-
 
   return (
     <table>

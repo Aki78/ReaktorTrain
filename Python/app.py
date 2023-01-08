@@ -150,9 +150,10 @@ def get_temp_naughty_pilots(drone_list, timestamp):
         distance = utils.get_distance_in_meters(x, y)
         if utils.is_in_bad_zone(x,y):
             naughty_pilot_url = BASE_PILOT_URL  + i["serialNumber"]
-            naughty_pilot = requests.get(naughty_pilot_url).json()
-            # timestamp = datetime.datetime.now() 
+
             try:
+                naughty_pilot = requests.get(naughty_pilot_url).json()
+                print("request_get pilot_url failed.")
                 if check_if_pilot_already_exists(naughty_pilot["pilotId"], temp_naughty_pilots):
                     temp_naughty_pilots.append({"pilot_id":naughty_pilot["pilotId"],
                                                 "firstName":naughty_pilot["firstName"],
