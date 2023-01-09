@@ -1,3 +1,4 @@
+// No documentation for these functions?
 function getColor(str) {
   const hash = hashCode(str);
   const r = (hash & 0xFF0000) >> 16;
