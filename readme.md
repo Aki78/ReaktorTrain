@@ -28,8 +28,7 @@ To run this app, follow these steps:
 Note: This app will automatically fetch and store data about pilots who violate the NDZ at regular intervals. The interval is set in the POOL_TIME constant in the config.py file.
 
 
-This webapp is a tool for tracking and storing information about pilots who violate regulations while operating drones.
-Features
+The endpoints in flask are:
 
     fetch_recent_naughty_pilots: This endpoint allows users to retrieve a list of pilots who have violated regulations in the past 10 minutes.
     insert_recent_naughty_pilots: This function stores information about pilots who have violated regulations in a MySQL database.
