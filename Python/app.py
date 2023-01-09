@@ -23,6 +23,7 @@ def fetch_recent_naughty_pilots():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
+# POST not needed since it is used only internally
 def insert_recent_naughty_pilots(data):
 
     cnx = mysql.connector.connect(user=USER, password=PASSWORD, host=HOST, database=DB)
