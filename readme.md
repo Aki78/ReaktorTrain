@@ -1,4 +1,4 @@
-#Webapp
+# Webapp
 
 This webapp is a tool for tracking and storing information about pilots who violate regulations while operating drones.
 Features
@@ -6,7 +6,7 @@ Features
     fetch_recent_naughty_pilots: This endpoint allows users to retrieve a list of pilots who have violated regulations in the past 10 minutes.
     insert_recent_naughty_pilots: This function stores information about pilots who have violated regulations in a MySQL database.
 
-##Technologies
+## Technologies
 
 This webapp was built using:
 
@@ -16,9 +16,9 @@ This webapp was built using:
     xmltodict for parsing XML data
     Threading for fetching data at regular intervals
 
-##Usage
+## Usage
 
-##To run this webapp, follow these steps:
+### To run this webapp, follow these steps:
 
     Install the necessary dependencies by running pip install -r requirements.txt.
     Set up a MySQL database and update the config.py file with the necessary information (username, password, host, and database name).
