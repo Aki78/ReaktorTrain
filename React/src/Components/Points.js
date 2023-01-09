@@ -3,16 +3,11 @@ import "./Points.css"
 import getColor from "./utils.js"
 
 function Points({list}) {
-  const [positionList, setPositionList] = useState([]);
 
-
-  useEffect(() => {
-    setPositionList(list)
-  }, [list]);
 
   return (
     <div className="container">
-      {positionList.map(point => (
+      {list.map(point => (
         <div
           key={point.X}
           className="point"

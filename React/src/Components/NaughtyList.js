@@ -6,6 +6,8 @@ function List({list}) {
   const [filteredList, setFilteredList] = useState([]);
 
   useEffect(() => {
+    // Here, the list filtered only for the closest distance
+    // The list is not ordered
     const minValues = list.reduce((acc, curr) => {
       if (!acc[curr.pilot_id] || acc[curr.pilot_id].distance > curr.distance) {
         acc[curr.pilot_id] = curr;

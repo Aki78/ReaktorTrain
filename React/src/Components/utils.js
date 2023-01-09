@@ -1,4 +1,5 @@
 function getColor(str) {
+  // this creates a unique color for each pilot
   const hash = hashCode(str);
   const r = (hash & 0xFF0000) >> 16;
   const g = (hash & 0x00FF00) >> 8;

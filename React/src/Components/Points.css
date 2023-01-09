@@ -18,6 +18,7 @@
 .pointHover {
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
   transform: scale(1.1); /* Scale up on hover */
+  z-index: 10;
 }
 
 .point[data-tooltip]:hover:before {
