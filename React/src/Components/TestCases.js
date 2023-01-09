@@ -1,3 +1,6 @@
+// Instead of this kind of a test component that does not get tested in any test suite,
+// odeally each component would have some kind of a unit test using testing-library that you had used in App.test.js.
+// But might be an overkill for this assignment, not sure.
 import Points from './Points';
 
 const points = [

@@ -3,8 +3,9 @@ import "./Points.css"
 import getColor from "./utils.js"
 
 function Points({list}) {
+  // You can simply use "list" instead of "positionList"? You don't need an internal state for list, since you are just using the original variable.
+  // Also remove the useEffect.
   const [positionList, setPositionList] = useState([]);
-
 
   useEffect(() => {
     setPositionList(list)

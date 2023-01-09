@@ -6,7 +6,10 @@ function List({list}) {
   const [filteredList, setFilteredList] = useState([]);
 
   useEffect(() => {
+    // I did not look into the data, but is the idea that you only show one entry per pilot_id?
+    // Because I think this only shows only the closest drone from each pilot. Also there is no real ordering to the list? Is this intentional?
     const minValues = list.reduce((acc, curr) => {
+      // If acc[curr.pilot_id] == 0, !acc[curr.pilot_id] == true and the current value will replace it..? 
       if (!acc[curr.pilot_id] || acc[curr.pilot_id].distance > curr.distance) {
         acc[curr.pilot_id] = curr;
       }

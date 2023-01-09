@@ -15,6 +15,7 @@
   transition: box-shadow 0.5s ease, transform 0.5s ease; /* Add transform transition */
 }
 
+/* The hovered points could be always on top by increasing their z-index? Now the hovered point may be obstructed by other points.*/
 .pointHover {
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
   transform: scale(1.1); /* Scale up on hover */
