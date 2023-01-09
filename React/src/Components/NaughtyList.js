@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./NaughtyList.css"
 
 function List({list}) {
-  let count = 0
+
   const [filteredList, setFilteredList] = useState([]);
 
   useEffect(() => {
@@ -14,10 +14,7 @@ function List({list}) {
     }, {});
 
     let new_list = Object.values(minValues);
-    console.log("new_list: ", new_list)
     setFilteredList(new_list)
-    console.log("filtededList: ", filteredList)
-    console.log(count+=1)
 
   }, [list]);
 
@@ -45,7 +42,6 @@ function List({list}) {
       </tbody>
     </table>
   );
-
 }
 
 export default List;

@@ -7,11 +7,8 @@ function Points({list}) {
 
 
   useEffect(() => {
-	  setPositionList(list)
+    setPositionList(list)
   }, [list]);
-
-
-
 
   return (
     <div className="container">

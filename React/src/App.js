@@ -17,6 +17,7 @@ function App() {
       console.error(error);
     }
   }
+
 // Fetching list every 1.9 seconds. Must be below 2 seconds for real time
   useEffect(() => {
     const interval = setInterval(fetchList, 1900);
