@@ -33,6 +33,10 @@ The endpoints in flask are:
     fetch_recent_naughty_pilots: This endpoint allows users to retrieve a list of pilots who have violated regulations in the past 10 minutes.
     insert_recent_naughty_pilots: This function stores information about pilots who have violated regulations in a MySQL database.
 
+## Possible Issues
+
+    The app might not work on some browsers since it wasn't tested on every browser. (Especially on mobile phones)
+    If you don't see any information, the server might be down.
 
 Check out the app at [http://aki78.pythonanywhere.com/bird](http://aki78.pythonanywhere.com/bird).
 
