@@ -37,6 +37,7 @@ The endpoints in flask are:
 
     The app might not work on some browsers since it wasn't tested on every browser. (Especially on mobile phones)
     If you don't see any information, the server might be down.
+    If the data is not updating every 2 seconds, the timer might have stopped.
 
 Check out the app at [http://aki78.pythonanywhere.com/bird](http://aki78.pythonanywhere.com/bird).
 
