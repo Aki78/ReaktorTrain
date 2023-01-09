@@ -20,4 +20,4 @@ POOL_TIME = 1 # make sure to have smaller than 2 seconds for realtime update
 
 CENTER_POINT = 250000 # In mm, both X_0 and Y_0 being the same
 ZONE_RANGE = 100000 # In mm
-ERASE_TIME = 1 # In minutes
+ERASE_TIME = 10 # In minutes

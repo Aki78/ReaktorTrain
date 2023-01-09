@@ -10,10 +10,6 @@ import utils as utils
 
 import config
 
-#TODO
-#get logic working
-#Optimize memory and speed
-
 #Global Constants
 USR = config.USER
 PSW = config.PASSWORD 
