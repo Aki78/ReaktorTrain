@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import "./Points.css"
 import getColor from "./utils.js"
 

@@ -5,7 +5,6 @@ import NaughtyList from './Components/NaughtyList';
 
 function App() {
   const [list, setList] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
 
   async function fetchList() {
     try {

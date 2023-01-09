@@ -20,12 +20,8 @@ This app was built using:
 
 ## Usage
 
-To run this app, follow these steps:
 
-    Install the necessary dependencies by running pip install -r requirements.txt.
-    Run python app.py to start the server.
-
-Note: This app will automatically fetch and store data about pilots who violate the NDZ at regular intervals. The interval is set in the POOL_TIME constant in the config.py file.
+This app will automatically fetch and store data about pilots who violate the NDZ at regular intervals. The interval is set in the POOL_TIME constant in the config.py file.
 
 
 The endpoints in flask are:
