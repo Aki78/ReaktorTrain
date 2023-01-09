@@ -32,6 +32,14 @@ The endpoints in flask are:
 
     fetch_recent_naughty_pilots: This endpoint allows users to retrieve a list of pilots who have violated regulations in the past 10 minutes.
 
+
+## Data
+
+To run this app, follow these steps:
+
+    Every NDZ zone violation is stored in the MySQL database
+    The list of pilots violating the past 10 min is stored in RAM independently for optimization perposes.
+
 ## Possible Issues
 
     The app might not work on some browsers since it wasn't tested on every browser. (Especially on mobile phones)
