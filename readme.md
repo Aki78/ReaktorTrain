@@ -1,6 +1,6 @@
 # Drone Monitoring App
 
-This app is designed to monitor and track drones in a 500 by 500 meter square, and provide information about pilots who have recently violated the no-fly zone (NDZ). The no-fly zone is a circle with a 100 meter radius, centered at position (250000, 250000).
+This app is designed to monitor and track drones in a 500 by 500 meter square, and provide information about pilots who have recently violated the no-fly zone (NDZ). The no-fly zone is a circle with a 100 meter radius, centered at position (250, 250) meters.
 
 ### The app retrieves data about drone positions and pilot information from two endpoints:
 
@@ -15,7 +15,8 @@ This app was built using:
     Python and the Flask web framework
     Requests for making HTTP requests
     xmltodict for parsing XML data
-    Threading for fetching data at regular intervals
+    React
+    MySQL
 
 ## Usage
 
@@ -34,5 +35,6 @@ Features
     insert_recent_naughty_pilots: This function stores information about pilots who have violated regulations in a MySQL database.
 
 
+Check out the app at [http://aki78.pythonanywhere.com/bird](http://aki78.pythonanywhere.com/bird).
 
 Note: This webapp will automatically fetch and store data about pilots who violate regulations at regular intervals (the interval is set in the POOL_TIME constant in the config.py file).
