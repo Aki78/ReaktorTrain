@@ -8,18 +8,8 @@ import threading
 from hashlib import sha256
 import utils as utils
 
-import config
-
-#Global Constants
-USR = config.USER
-PSW = config.PASSWORD 
-HST = config.HOST 
-DB = config.DB 
-BASE_URL = config.BASE_URL
-BASE_PILOT_URL = config.BASE_PILOT_URL
-PILOT_TABLE_NAME = config.PILOT_TABLE_NAME 
-VIOLATION_TABLE_NAME = config.VIOLATION_TABLE_NAME 
-POOL_TIME = config.POOL_TIME 
+from config import  USER, PASSWORD, HOST, DB
+from config import BASE_URL, BASE_PILOT_URL, VIOLATION_TABLE_NAME, POOL_TIME
 
 #Global Variables
 sha_old = ""
@@ -29,14 +19,13 @@ app = Flask(__name__)
 
 @app.route('/fetch_recent_naughty_pilots', methods=['GET'])
 def fetch_recent_naughty_pilots():
-    print("CALLED")
     resp = jsonify(past_10_min_pilots)
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
 def insert_recent_naughty_pilots(data):
 
-    cnx = mysql.connector.connect(user=USR, password=PSW, host=HST, database=DB)
+    cnx = mysql.connector.connect(user=USER, password=PASSWORD, host=HOST, database=DB)
     cursor = cnx.cursor()
     query = '''SELECT * FROM naughty_pilot_info WHERE pilotID = %s'''
     #dummy value just to check if pilot already exists
@@ -44,11 +33,9 @@ def insert_recent_naughty_pilots(data):
     cursor.execute(query, values)
 
     try:
-        print("Adding", data)
 
         # data = request.get_json()
         for i in data:
-            print("i", i)
             pilot_id = i['pilot_id']
             first_name = i['firstName']
             last_name = i['lastName']
@@ -58,7 +45,6 @@ def insert_recent_naughty_pilots(data):
             distance = i['distance']
             X = i['X']
             Y = i['Y']
-            print(i)
 
             # Insert pilot data into the table if it doesn't exist
             if cursor.fetchone() is None:
@@ -91,7 +77,6 @@ def insert_recent_naughty_pilots(data):
         return jsonify({'message': 'Pilot added successfully'})
 
     except mysql.connector.Error as err:
-        print("Not adding: ", err)
         return jsonify({'status': 'error', 'message': str(err)})
 
 
@@ -100,20 +85,17 @@ def fetch_drone_data():
     global past_10_min_pilots
     while True:
         past_10_min_pilots = utils.remove_old_objects(past_10_min_pilots)
-        print("calld! ")
 
         # Parse the XML data
         try:
             xml_data = requests.get(BASE_URL).text
         except:
-            print("xml_data broken")
             continue
 
         # checking if it is the same or not from before so there aren't unnessesary calls
         # only reason for sha is for humans to be able to quickly see changes at print time
         global sha_old
         sha_value = sha256(xml_data.encode('utf-8')).hexdigest()
-        print(sha_old)
         if sha_value != sha_old:
             sha_old = sha_value
 
@@ -121,19 +103,16 @@ def fetch_drone_data():
             try:
                 full_data = xmltodict.parse(xml_data)
             except:
-                print("xml_data_broken")
                 continue
             incoming_drones_list =  full_data["report"]["capture"]["drone"]
             timestamp =  full_data["report"]["capture"]["@snapshotTimestamp"]
             timestamp = datetime.datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%S.%fZ')
-            print(timestamp)
 
             #small sanity check to make sure drones are stored in list
             if type(incoming_drones_list) != list:
                 raise Exception(TypeError)
 
             past_10_min_pilots += get_temp_naughty_pilots(incoming_drones_list, timestamp)
-            print(past_10_min_pilots)
             time.sleep(POOL_TIME)
 
 def get_temp_naughty_pilots(drone_list, timestamp):
@@ -148,8 +127,7 @@ def get_temp_naughty_pilots(drone_list, timestamp):
 
             try:
                 naughty_pilot = requests.get(naughty_pilot_url).json()
-                print("request_get pilot_url failed.")
-                if check_if_pilot_already_exists(naughty_pilot["pilotId"], temp_naughty_pilots):
+                if pilot_exists(naughty_pilot["pilotId"], temp_naughty_pilots):
                     temp_naughty_pilots.append({"pilot_id":naughty_pilot["pilotId"],
                                                 "firstName":naughty_pilot["firstName"],
                                                 "lastName":naughty_pilot["lastName"],
@@ -165,13 +143,12 @@ def get_temp_naughty_pilots(drone_list, timestamp):
     return temp_naughty_pilots
 
 
-def check_if_pilot_already_exists(new_pilot_id, pilots):
+def pilot_exists(new_pilot_id, pilots):
     for i in pilots:
         try:
             if new_pilot_id == i["pilotId"]:
                 return False
         except:
-            print("Couldn't find Pilot")
             return False
     return True
 
