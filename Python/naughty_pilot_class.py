@@ -1,4 +1,8 @@
 from datetime import datetime
+
+#NOT USED since it wasn't nessesary since the problem was simple enough
+
+
 #make sure to store only pilots who violated the rules for privacy reasons.
 class NaughtyPilot():
     def __init__(self,drone,pilot_info):

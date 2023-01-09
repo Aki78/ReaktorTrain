@@ -188,4 +188,5 @@ if __name__ == '__main__':
 
     yourThread = threading.Thread(target=fetch_drone_data)
     yourThread.start()  
+
     app.run(port=12345)

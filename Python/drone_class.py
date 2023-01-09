@@ -1,5 +1,7 @@
 import utils
 
+#NOT USED since it wasn't nessesary since the problem was simple enough
+
 class Drone():
     def __init__(self,drone_data):
         self.serialNumber = drone_data["serialNumber"]

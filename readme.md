@@ -15,8 +15,8 @@ This app was built using:
     Python and the Flask web framework
     Requests for making HTTP requests
     xmltodict for parsing XML data
-    React
-    MySQL
+    React for frontend
+    MySQL for database
 
 ## Usage
 
