@@ -34,7 +34,6 @@ def fetch_recent_naughty_pilots():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
-# @app.route('/insert_naughty_pilots', methods=['POST'])
 def insert_recent_naughty_pilots(data):
 
     cnx = mysql.connector.connect(user=USR, password=PSW, host=HST, database=DB)
