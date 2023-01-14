@@ -31,8 +31,6 @@ The endpoints in flask are:
 
 ## Data
 
-To run this app, follow these steps:
-
     Every NDZ zone violation is stored in the MySQL database.
     The list of pilots violating the past 10 min is stored in RAM independently for optimization perposes.
     Only pilots who violated are stored for privacy conserns.
