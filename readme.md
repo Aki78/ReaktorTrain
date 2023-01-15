@@ -2,6 +2,8 @@
 
 This app is designed to monitor and track drones in a 500 by 500 meter square, and provide information about pilots who have recently violated the no-fly zone (NDZ). The no-fly zone is a circle with a 100 meter radius, centered at position (250, 250) meters.
 
+Check out the app at [http://aki78.pythonanywhere.com/bird](http://aki78.pythonanywhere.com/bird).
+
 ### The app retrieves data about drone positions and pilot information from two endpoints:
 
     assignments.reaktor.com/birdnest/drones provides snapshot data about drones in the area in XML format. This data is updated about once every 2 seconds.
@@ -42,6 +44,5 @@ The endpoints in flask are:
     If the data is not updating every 2 seconds, the timer might have stopped.
     If you use https instead of http, it might not work.
 
-Check out the app at [http://aki78.pythonanywhere.com/bird](http://aki78.pythonanywhere.com/bird).
 
 Note: This webapp will automatically fetch and store data about pilots who violate regulations at regular intervals (the interval is set in the POOL_TIME constant in the config.py file).
