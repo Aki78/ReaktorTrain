@@ -4,7 +4,7 @@ This app is designed to monitor and track drones in a 500 by 500 meter square, a
 
 Check out the app at [http://aki78.pythonanywhere.com/bird](http://aki78.pythonanywhere.com/bird).
 
-The server at pythonanywhere.com seems to be unstable (even with the paid prescription), and crashes for no reason sometimes so there is a chance the data won't update. Please come back in a few hours if the auto-update isn't working. It usually solves itself.
+The server at pythonanywhere.com seems to be unstable (even with the paid prescription), and crashes for no reason sometimes so there is a chance the data won't update. Please come back in a few hours if the auto-update isn't working. It usually fixes itself.
 
 ### The app retrieves data about drone positions and pilot information from two endpoints:
 
