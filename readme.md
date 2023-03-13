@@ -2,7 +2,7 @@
 
 This app is designed to monitor and track drones in a 500 by 500 meter square, and provide information about pilots who have recently violated the no-fly zone (NDZ). The no-fly zone is a circle with a 100 meter radius, centered at position (250, 250) meters.
 
-Check out the app at [http://aki78.pythonanywhere.com/bird](http://aki78.pythonanywhere.com/bird).
+Check out the app at [http://aki78.pythonanywhere.com/bird](http://aki78.pythonanywhere.com/bird). Warning: the website is not active anymore.
 
 The server at pythonanywhere.com seems to be unstable (even with the paid prescription), and crashes for no reason sometimes so there is a chance the data won't update. Please come back in a few hours if the auto-update isn't working. It usually fixes itself.
 
